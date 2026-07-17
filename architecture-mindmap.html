@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShiftOps Scheduler Flowchart</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #0f172a, #020617 40%);
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+
+    .page {
+      width: min(1400px, 100%);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 32px;
+      box-shadow: 0 40px 120px rgba(15, 23, 42, 0.35);
+      padding: 40px;
+      overflow: hidden;
+    }
+
+    .title {
+      font-size: clamp(2rem, 3vw, 3rem);
+      margin: 0 0 12px;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .subtitle {
+      margin: 0 0 32px;
+      max-width: 860px;
+      color: #cbd5e1;
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    .flow-chart {
+      display: grid;
+      gap: 18px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .row.space-between {
+      justify-content: space-between;
+    }
+
+    .box {
+      position: relative;
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.96));
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.15);
+      padding: 24px 28px;
+      min-width: 260px;
+      max-width: 360px;
+      overflow: hidden;
+    }
+
+    .box::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -40px;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 32px;
+      background: rgba(148, 163, 184, 0.28);
+    }
+
+    .box::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -10px;
+      transform: translateX(-50%) rotate(45deg);
+      width: 12px;
+      height: 12px;
+      border-bottom: 2px solid rgba(148, 163, 184, 0.7);
+      border-right: 2px solid rgba(148, 163, 184, 0.7);
+    }
+
+    .box.last::before,
+    .box.last::after {
+      display: none;
+    }
+
+    .box h3,
+    .box h4 {
+      margin: 0 0 10px;
+      color: #e2e8f0;
+    }
+
+    .box p,
+    .box li {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .box ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    .box code {
+      display: inline-block;
+      background: rgba(148, 163, 184, 0.12);
+      border-radius: 6px;
+      padding: 2px 6px;
+      color: #e2e8f0;
+      font-size: 0.92rem;
+      margin-top: 6px;
+    }
+
+    .connector {
+      position: relative;
+      width: 100%;
+      height: 28px;
+    }
+
+    .connector::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 2px;
+      height: 100%;
+      background: rgba(148, 163, 184, 0.25);
+    }
+
+    .connector::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%) rotate(45deg);
+      width: 12px;
+      height: 12px;
+      border-bottom: 2px solid rgba(148, 163, 184, 0.7);
+      border-right: 2px solid rgba(148, 163, 184, 0.7);
+    }
+
+    .horizontal-flow {
+      position: relative;
+      width: 100%;
+      min-height: 24px;
+    }
+
+    .horizontal-flow::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 8%;
+      right: 8%;
+      height: 2px;
+      background: rgba(148, 163, 184, 0.2);
+      transform: translateY(-50%);
+    }
+
+    .horizontal-flow::after {
+      content: "";
+      position: absolute;
+      right: 8%;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      border-bottom: 2px solid rgba(148, 163, 184, 0.7);
+      border-right: 2px solid rgba(148, 163, 184, 0.7);
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    .note {
+      margin-top: 28px;
+      color: #94a3b8;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 960px) {
+      .row.space-between {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .box {
+        max-width: 100%;
+      }
+
+      .box::before,
+      .box::after {
+        left: 50%;
+      }
+
+      .horizontal-flow {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="page">
+    <header>
+      <h1 class="title">ShiftOps Scheduler Flowchart</h1>
+      <p class="subtitle">A visual flowchart of the app entry, schedule feature layers, and schedule data flow.</p>
+    </header>
+
+    <section class="flow-chart">
+      <div class="row center">
+        <div class="box">
+          <h3>App Entry</h3>
+          <p><code>src/main.tsx</code></p>
+          <ul>
+            <li>Mounts the React app</li>
+            <li>Renders <code>&lt;App /&gt;</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="row center">
+        <div class="box">
+          <h3>App Shell</h3>
+          <p><code>src/App.tsx</code></p>
+          <ul>
+            <li>Top-level UI container</li>
+            <li>Future host for schedule pages and layout</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="row space-between">
+        <div class="box">
+          <h3>UI / Future Components</h3>
+          <ul>
+            <li>Schedule page</li>
+            <li>Shift list / calendar</li>
+            <li>Edit controls and warnings</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Schedule Feature</h3>
+          <p><code>src/features/schedule/</code></p>
+          <ul>
+            <li>State, domain logic, types, data, tests</li>
+            <li>Central feature boundary</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="horizontal-flow"></div>
+
+      <div class="row center">
+        <div class="box">
+          <h3>Store Layer</h3>
+          <p><code>schedule.store.ts</code></p>
+          <ul>
+            <li>employees</li>
+            <li>manualShifts</li>
+            <li>fixedRules</li>
+            <li>exceptions</li>
+            <li>state update actions</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="row space-between">
+        <div class="box">
+          <h3>Domain Services</h3>
+          <ul>
+            <li><code>schedule-generator.ts</code></li>
+            <li><code>schedule-conflicts.ts</code></li>
+            <li><code>schedule-time.ts</code></li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Types & Data</h3>
+          <ul>
+            <li><code>employee.types.ts</code></li>
+            <li><code>fixed-schedule-rule.types.ts</code></li>
+            <li><code>schedule-exception.types.ts</code></li>
+            <li><code>shift.types.ts</code></li>
+            <li><code>visible-shift.types.ts</code></li>
+            <li><code>schedule.mock.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="row center">
+        <div class="box last">
+          <h3>Visible Shift Flow</h3>
+          <ul>
+            <li>UI reads state from <code>useScheduleStore</code></li>
+            <li>Calls <code>getVisibleShiftsForDate()</code></li>
+            <li>Calls <code>detectScheduleConflicts()</code></li>
+            <li>Renders schedule and conflicts</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row center">
+        <div class="box">
+          <h3>Test Coverage</h3>
+          <p><code>src/features/schedule/tests/</code></p>
+          <ul>
+            <li><code>schedule-generator.test.ts</code></li>
+            <li><code>schedule-conflicts.test.ts</code></li>
+            <li><code>schedule-time.test.ts</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <p class="note">Open this file in a browser to view the flowchart-style architecture diagram.</p>
+  </article>
+</body>
+</html>
