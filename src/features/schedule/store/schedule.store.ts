@@ -19,7 +19,7 @@ type ScheduleState = {
 
   addManualShift: (shift: ManualShift) => void;
   deleteManualShift: (shiftId: string) => void;
-  addException: (exception: ScheduleException) => void;
+  addScheduleException: (exception: ScheduleException) => void;
   replaceFixedRuleFromDate: (params: {
     oldRuleId: string;
     effectiveFrom: string;
@@ -43,7 +43,7 @@ export const useScheduleStore = create<ScheduleState>((set) => ({
       manualShifts: state.manualShifts.filter((shift) => shift.id !== shiftId),
     })),
 
-  addException: (exception) =>
+  addScheduleException: (exception) =>
     set((state) => ({
       exceptions: [...state.exceptions, exception],
     })),

@@ -50,6 +50,36 @@ export const mockFixedRules: FixedScheduleRule[] = [
   },
 ];
 
-export const mockManualShifts: ManualShift[] = [];
+export const mockManualShifts: ManualShift[] = [
+  {
+    id: "shift-a",
+    employeeId: "person-c",
+    date: "2026-07-10",
+    startTime: "12:00",
+    endTime: "20:00",
+    role: "staff",
+    source: "manual",
+  },
+];
 
-export const mockExceptions: ScheduleException[] = [];
+export const mockExceptions: ScheduleException[] = [
+  {
+    id: "exception-a",
+    originalRuleId: "rule-a",
+    originalEmployeeId: "person-a",
+    dateFrom: "2026-07-08",
+    dateTo: "2026-07-08",
+    type: "time_off",
+    reason: "Doctor appointment",
+  },
+  {
+    id: "exception-b",
+    originalRuleId: "rule-b",
+    originalEmployeeId: "person-b",
+    dateFrom: "2026-07-09",
+    dateTo: "2026-07-09",
+    type: "coverage",
+    replacementEmployeeId: "person-c",
+    reason: "Coverage requested",
+  },
+];
