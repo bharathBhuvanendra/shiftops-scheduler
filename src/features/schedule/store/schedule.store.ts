@@ -9,6 +9,7 @@ import {
   mockFixedRules,
   mockManualShifts,
 } from "../data/schedule.mock";
+import { replaceFixedRuleFromDate as replaceFixedRuleFromDateInDomain } from "../domain/schedule-management";
 
 type ScheduleState = {
   employees: Employee[];
@@ -49,16 +50,11 @@ export const useScheduleStore = create<ScheduleState>((set) => ({
 
   replaceFixedRuleFromDate: ({ oldRuleId, effectiveFrom, newRule }) =>
     set((state) => ({
-      fixedRules: state.fixedRules
-        .map((rule) =>
-          rule.id === oldRuleId
-            ? {
-                ...rule,
-                effectiveTo: effectiveFrom,
-                isActive: false,
-              }
-            : rule
-        )
-        .concat(newRule),
+      fixedRules: replaceFixedRuleFromDateInDomain({
+        fixedRules: state.fixedRules,
+        oldRuleId,
+        effectiveFrom,
+        newRule,
+      }),
     })),
 }));
