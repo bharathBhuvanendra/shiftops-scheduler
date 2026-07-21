@@ -15,6 +15,12 @@ describe("schedule-time", () => {
     expect(isValidShiftRange("17:00", "09:00")).toBe(false);
   });
 
+  it("throws a useful error for invalid time inputs", () => {
+    expect(() => timeToMinutes("24:00")).toThrow(
+      "Invalid time format: 24:00"
+    );
+  });
+
   it("calculates shift position within a timeline", () => {
     const result = calculateShiftPosition({
       startTime: "09:00",
