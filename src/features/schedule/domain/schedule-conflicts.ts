@@ -26,6 +26,7 @@ export function detectScheduleConflicts(shifts: VisibleShift[]): ScheduleConflic
       const shiftB = shifts[j];
 
       if (shiftA.employeeId !== shiftB.employeeId) continue;
+      if (shiftA.date !== shiftB.date) continue;
 
       if (shiftsOverlap(shiftA, shiftB)) {
         conflicts.push({

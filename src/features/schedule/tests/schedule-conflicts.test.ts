@@ -25,7 +25,39 @@ describe("detectScheduleConflicts", () => {
       },
     ];
 
-    expect(detectScheduleConflicts(shifts)).toHaveLength(1);
+    expect(detectScheduleConflicts(shifts)).toEqual([
+      {
+        employeeId: "person-a",
+        shiftAId: "1",
+        shiftBId: "2",
+        reason: "overlapping_shift",
+      },
+    ]);
+  });
+
+  it("does not flag adjacent shifts for the same employee as conflicts", () => {
+    const shifts: VisibleShift[] = [
+      {
+        id: "1",
+        employeeId: "person-a",
+        date: "2026-07-06",
+        startTime: "09:00",
+        endTime: "13:00",
+        role: "staff",
+        source: "manual",
+      },
+      {
+        id: "2",
+        employeeId: "person-a",
+        date: "2026-07-06",
+        startTime: "13:00",
+        endTime: "17:00",
+        role: "staff",
+        source: "manual",
+      },
+    ];
+
+    expect(detectScheduleConflicts(shifts)).toHaveLength(0);
   });
 
   it("allows overlapping shifts for different employees", () => {
