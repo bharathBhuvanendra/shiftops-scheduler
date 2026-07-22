@@ -17,6 +17,9 @@ type ScheduleState = {
   fixedRules: FixedScheduleRule[];
   exceptions: ScheduleException[];
 
+  addEmployee: (employee: Employee) => void;
+  toggleEmployeeActive: (employeeId: string) => void;
+  addFixedRule: (rule: FixedScheduleRule) => void;
   addManualShift: (shift: ManualShift) => void;
   deleteManualShift: (shiftId: string) => void;
   addScheduleException: (exception: ScheduleException) => void;
@@ -32,6 +35,25 @@ export const useScheduleStore = create<ScheduleState>((set) => ({
   manualShifts: mockManualShifts,
   fixedRules: mockFixedRules,
   exceptions: mockExceptions,
+
+  addEmployee: (employee) =>
+    set((state) => ({
+      employees: [...state.employees, employee],
+    })),
+
+  toggleEmployeeActive: (employeeId) =>
+    set((state) => ({
+      employees: state.employees.map((employee) =>
+        employee.id === employeeId
+          ? { ...employee, isActive: !employee.isActive }
+          : employee
+      ),
+    })),
+
+  addFixedRule: (rule) =>
+    set((state) => ({
+      fixedRules: [...state.fixedRules, rule],
+    })),
 
   addManualShift: (shift) =>
     set((state) => ({

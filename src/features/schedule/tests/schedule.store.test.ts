@@ -6,6 +6,8 @@ import {
   mockManualShifts,
   mockExceptions,
 } from "../data/schedule.mock";
+import type { Employee } from "../domain/employee.types";
+import type { FixedScheduleRule } from "../domain/fixed-schedule-rule.types";
 import type { ManualShift } from "../domain/shift.types";
 import type { ScheduleException } from "../domain/schedule-exception.types";
 
@@ -70,8 +72,53 @@ describe("schedule store", () => {
     expect(useScheduleStore.getState().exceptions).toContainEqual(newException);
   });
 
+  it("adds a fixed schedule rule", () => {
+    const newRule: FixedScheduleRule = {
+      id: "rule-c",
+      employeeId: "person-c",
+      weekdays: [1, 3, 5],
+      startTime: "08:00",
+      endTime: "16:00",
+      role: "staff",
+      effectiveFrom: "2026-08-01",
+      isActive: true,
+    };
+
+    useScheduleStore.getState().addFixedRule(newRule);
+
+    expect(useScheduleStore.getState().fixedRules).toContainEqual(newRule);
+  });
+
+  it("adds a new employee", () => {
+    const newEmployee: Employee = {
+      id: "person-d",
+      name: "Person D",
+      role: "cleaner",
+      color: "#ef4444",
+      isActive: true,
+    }
+
+    useScheduleStore.getState().addEmployee(newEmployee)
+
+    expect(useScheduleStore.getState().employees).toContainEqual(newEmployee)
+  })
+
+  it("toggles employee active status", () => {
+    useScheduleStore.getState().toggleEmployeeActive("person-a")
+
+    expect(useScheduleStore.getState().employees).toContainEqual(
+      expect.objectContaining({ id: "person-a", isActive: false })
+    )
+
+    useScheduleStore.getState().toggleEmployeeActive("person-a")
+
+    expect(useScheduleStore.getState().employees).toContainEqual(
+      expect.objectContaining({ id: "person-a", isActive: true })
+    )
+  })
+
   it("replaces a fixed rule from a future date", () => {
-    const newRule = {
+    const newRule: FixedScheduleRule = {
       id: "rule-a-v2",
       employeeId: "person-a",
       weekdays: [1, 2, 5],
