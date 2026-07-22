@@ -182,3 +182,111 @@
     border-right-color: var(--border);
   }
 }
+
+.schedule-calendar {
+  max-width: 980px;
+  margin: 0 auto 32px;
+  text-align: left;
+}
+
+.schedule-calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.schedule-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.schedule-calendar__row {
+  display: contents;
+}
+
+.schedule-calendar__heading-row {
+  background: var(--code-bg);
+}
+
+.schedule-calendar__weekday,
+.schedule-calendar__cell {
+  padding: 14px 12px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.schedule-calendar__weekday {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-h);
+  text-align: center;
+}
+
+.schedule-calendar__cell {
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg);
+}
+
+.schedule-calendar__cell:nth-child(7n) {
+  border-right: none;
+}
+
+.schedule-calendar__cell--outside-month {
+  background: rgba(0, 0, 0, 0.03);
+  color: #9b9b9b;
+}
+
+.schedule-calendar__date-label {
+  font-size: 1rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.schedule-calendar__day-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 6px;
+  padding: 10px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.schedule-calendar__day-link:hover,
+.schedule-calendar__day-link:focus-visible {
+  background: var(--accent-bg);
+  box-shadow: inset 0 0 0 1px var(--accent-border);
+}
+
+.schedule-calendar__day-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.schedule-calendar__shift-count {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.schedule-calendar__shift-time {
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.schedule-calendar__day-placeholder {
+  min-height: 56px;
+  display: flex;
+  align-items: flex-start;
+  color: #9b9b9b;
+}
